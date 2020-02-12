@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Check Yo' Self</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,800&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <header class="nav-header">
+    <h1 class="nav-title">Check Yo' Self</h1>
+    <!-- Add Search Form -->
+    <form class="search-form">
+      <button id="search-btn"><img src="images/search.svg"></button>
+      <input type="text" name="search-input" id="search-input">
+    </form>
+  </header>
+  <main>
+    <!-- aside task form -->
+    <aside>
+      <div class="task-input-container">
+        <form class="task-title">Task Title
+          <input type="text" name="task-title">
+        </form>
+          <ul id="task-item-list"></ul>
+        <form class="task-item">Task Items
+          <div class="task-item-container">
+            <input type="text" name="task-item-input">
+            <button id="plus-btn" disables>+</button>
+          </div>
+        </form>
+        <!-- task buttons -->
+        <form class="task-btn">
+          <button id="make-btn">Make Task List</button>
+          <button id="clear-btn">Clear Task List</button>
+        </form>
+      </div>
+      <div class="urgent-filter">
+        <button id="filter-btn">Filter By Urgency</button>
+      </div>
+    </aside>
+    <!-- task cards index -->
+    <div class="card-index">
+    </div>
+  </main>
+</body>
+  <script type="text/javascript" src="javascripts/todo-list.js"></script>
+  <script type="text/javascript" src="javascripts/task.js"></script>
+  <script type="text/javascript" src="javascripts/main.js"></script>
+</html>
