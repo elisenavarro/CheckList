@@ -79,7 +79,7 @@ aside form {
   display: flex;
   flex-direction: column;
   padding-bottom: 10px;
-  border-bottom: 1px solid #3C6577;
+  border-bottom: 2px solid #3C6577;
 }
 
 .task-item-container {
@@ -120,4 +120,18 @@ aside button {
 ul {
   display: flex;
   flex-direction: column;
+}
+
+.urgent-filter {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+#filter-btn {
+  width: 90%;
+  margin-right: 12px;
 }
