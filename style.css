@@ -1,0 +1,137 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+  height: 100vh;
+  margin: 0 auto;
+}
+
+main {
+  display: flex;
+}
+
+/*header*/
+.nav-header {
+  background-color: #1F1F3D;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 8vh;
+  padding: 15px;
+}
+
+h1 {
+  color: #FFFFFF;
+  font-size: 30px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+span {
+  color: #FFC30C;
+}
+
+.search-form {
+  display: flex;
+  margin-right: 1.5%;
+  width: 30%;
+  border: none;
+}
+
+#search-btn {
+  background-color: #c7c3d8;
+  border-radius: 3px 0 0 3px;
+}
+
+#search-input{
+  width: 90%;
+  border-radius: 0 3px 3px 0;
+  border: none;
+  margin: 0;
+  font-size: 24px;
+  padding-left: 10px;
+}
+
+#search-img {
+  height: 35px;
+}
+
+button {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+}
+
+/*aside*/
+aside {
+  background-color: #587A8A;
+  width: 40%;
+  height: 100vh;
+  padding: 10px;
+}
+
+aside form {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin: 10px;
+}
+
+.task-input-container {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #3C6577;
+}
+
+.task-item-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#task-item-input {
+  width: 95%;
+}
+
+aside form input {
+  border: 2px solid #1F1F3D;
+  height: 35px;
+  border-radius: 3px 0 0 3px;
+}
+
+#plus-btn {
+  border-radius: 0% 10% 10% 0%;
+  border: none;
+  font-weight: 700;
+  margin-top: 5px;
+  height: 40px;
+  width: 12%;
+}
+
+aside button {
+  color: #FFFFFF;
+  background-color: #1F1F3D;
+  border-radius: 3px;
+  border: none;
+  font-size: 18px;
+  height: 35px;
+  margin-bottom: 5px;
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.urgent-filter {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+#filter-btn {
+  width: 90%;
+  margin-right: 12px;
+}
