@@ -142,3 +142,32 @@ output img {
   margin: 0;
   padding: 3px;
 }
+
+/*Cards*/
+#index-message {
+  color: #1f1f3d;
+  font-size: 16px;
+  margin-top: 30px;
+  margin-left: 20px;
+}
+
+.card-index {
+  border: 3px solid #C7D3D8;
+  background-color: #FAFDFF;
+  min-height: 160px;
+  padding: 2px;
+  width: 95%;
+}
+
+.card-h2 {
+  color: #1F1F3D;
+  font-size: 15px;
+  border-bottom: 2px solid #C7D3D8;
+  padding: 5px;
+}
+
+.card-ul {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0px;
+}

@@ -54,19 +54,7 @@ function sectionHandler(){
 }
 
 // Functions
-// CREATE NEW TASK ITEM
-function createTask() {
-  const task = {
-      id: Date.now(),
-      text: taskItem.value,
-      done: false }
-    let tasksArray = JSON.parse(localStorage.getItem('tasksArray'));
-    tasksArray.push(task);
-    saveToStorage(tasksArray);
-    addTask(task);
-  }
-
-// DISABLE MAKE TODO BUTTON
+// DISABLE BUTTONS
 function disableMakeTodoBtn() {
   if (titleIn.value === '' || output.innerHTML === '') {
     makeTodoBtn.disabled = true;
@@ -75,13 +63,38 @@ function disableMakeTodoBtn() {
   }
 }
 
-// DISABLE BUTTONS
 function disableButton(button) {
   if (!titleIn.value || !output.innerHTML) {
     button.disabled = true;
   } else {
     button.disabled = false;
   }
+}
+
+function disableAddTaskBtn() {
+  if (!titleIn.value || !taskItem.value) {
+    addTaskBtn.disabled = true;
+  } else {
+    addTaskBtn.disabled = false;
+  }
+}
+
+function disableClearButton() {
+  if (!titleIn.value || !output.innerHTML) {
+    clearBtn.disabled = true;
+  } else {
+    clearBtn.disabled = false;
+  }
+}
+
+function enableDeleteBtn(button) {
+  button.setAttribute('src', 'images/delete-active.svg');
+  button.classList.add('delete-card');
+}
+
+function disableDeleteBtn(button) {
+  button.setAttribute('src', 'images/delete.svg');
+  button.classList.remove('delete-card');
 }
 
 // ADD PENDING TASK ITEM TO LIST
@@ -93,13 +106,16 @@ function addTask(obj) {
   taskItem.value = '';
 }
 
-// DISABLE ADD PENDING TASK ITEM BUTTON
-function disableAddTaskBtn() {
-  if (!titleIn.value || !taskItem.value) {
-    addTaskBtn.disabled = true;
-  } else {
-    addTaskBtn.disabled = false;
-  }
+// CREATE NEW TASK ITEM
+function createTask() {
+  const task = {
+      id: Date.now(),
+      text: taskItem.value,
+      done: false }
+  let tasksArray = JSON.parse(localStorage.getItem('tasksArray'));
+  tasksArray.push(task);
+  saveToStorage(tasksArray);
+  addTask(task);
 }
 
 // DELETE PENDING TASK ITEM FROM LIST
@@ -147,12 +163,14 @@ function clearTaskList() {
   createTasksArray();
 }
 
-// DISABLE CLEAR TASKS BUTTON
-function disableClearButton() {
-  if (!titleIn.value || !output.innerHTML) {
-    clearBtn.disabled = true;
+// REINSTANTIATE TASK ITEM
+function reinstantiateTodo() {
+  if (JSON.parse(localStorage.getItem('todoArray')) === null) {
+    todoArray = [];
   } else {
-    clearBtn.disabled = false;
+    todoArray = JSON.parse(localStorage.getItem('todoArray')).map(element => {
+      return new TodoList(element);
+    })
   }
 }
 
@@ -181,7 +199,7 @@ function displayToDo(obj){
 
 // DISPLAY TASK LIST > POPULATE INTO ARRAY
 function populateTasks(array) {
-  const uList = `<ul>`;
+  let uList = `<ul class="card-ul">`;
   array.forEach(function(task) {
     const checkPath = task.done ? 'images/checkbox-active.svg' : 'images/checkbox.svg';
     const checkClass = task.done ? 'checked' : '';
@@ -213,36 +231,25 @@ function displayCards(array){
 
 // DELETE TASK ITEM FROM CARD
 function removeTodo(e) {
-  if (e.target.classList.contains('delete-card')){
-    let targetIndex = findTargetIndex(e, todoArray, 'card-index');
+  if (e.target.classList.contains('.delete-card')){
+    let targetIndex = findTargetIndex(e, todoArray, '.card-index');
     todoArray[targetIndex].deleteFromStorage(todoArray, targetIndex);
-    e.target.closest('card-index').remove();
+    e.target.closest('.card-index').remove();
     displayMessage(todoArray, 'Done')
   }
 }
 
-// FIND CARD BY ID
-
-// FIND TASK BY ID
-
-// REINSTANTIATE TASK ITEM
-function reinstantiateTodo() {
-  if (JSON.parse(localStorage.getItem('todoArray')) === null) {
-    todoArray = [];
-  } else {
-    todoArray = JSON.parse(localStorage.getItem('todoArray')).map(element => {
-      return new TodoList(element);
-    })
-  }
-}
-
 // DELETE ITEM FROM CARD LIST ARRAY
-function checkDeleteButton(e,tasksArray) {
+function checkDeleteButton(e,tasksArray, todo) {
+  const deleteBtn = e.target.closet('.card-index').querySelector('.img-delete');
   if (tasksArray.every(function(tasks){
     return tasks.done === true
   })) {
-    e.target.closest('card-index').querySelector('.img-delete').setAttribute('src', 'images/delete.svg')
-  } else {e.target.closest('card-index').querySelector('.img-delete').setAttribute('src', 'images/delete-active.svg')
+    enableDeleteBtn(deleteBtn);
+    todo.delete = true;
+  } else {
+    disableDeleteBtn.(deleteBtn);
+    todo.delete = false;
   }
 }
 
@@ -254,7 +261,7 @@ function deleteCards() {
 // DISPLAY MESSAGE
 function displayMessage(array, message) {
   if (!array.lenth) {
-    rightSect.insertAdjacentHTML('afterbegin', `<h3 id='h3'>${message}</h3>`);
+    rightSect.insertAdjacentHTML('afterbegin', `<h3 id='index-message'>${message}</h3>`);
     return;
   } else {
     deleteCards();
@@ -263,25 +270,29 @@ function displayMessage(array, message) {
 }
 
 // CHECK ITEM AS COMPLETE (TOGGLE)
+function toggleCheckClass(e) {
+  e.target.closest(.'taskItem').classList.toggle.('checked');
+}
+
 function toggleTaskComplete(e) {
   if (e.target.classList.contains('img-check')) {
-    const todoIndex = findTargetIndex(e, todoArray, 'card-index');
+    const todoIndex = findTargetIndex(e, todoArray, '.card-index');
     const listIndex = findTargetIndex(e, todoArray[todoIndex].tasks, 'taskItem');
     let task = todoArray[todoIndex].tasks[listIndex];
     let tasksArray = todoArray[todoIndex].tasks;
     task.done = !task.done;
     toggleCheckbox(e, task, listIndex);
-    toggleCheckedClass(e);
+    toggleCheckClass(e);
     checkDeleteButton(e, tasksArray, todoArray[todoIndex]);
     todoArray[todoIndex].saveToStorage(todoArray);
   }
 }
 
-function toggleCheckbox(e, task, liIndex){
+function toggleCheckbox(e, task, listIndex){
   let checked = 'images/checkbox-active.svg';
   let unchecked = 'images/checkbox.svg';
-  let imgArray = e.target.closest('card-index').querySelectorAll('.img-check');
-  targetImage = imgArray[liIndex];
+  let imgArray = e.target.closest('.card-index').querySelectorAll('.img-check');
+  targetImage = imgArray[listIndex];
   if (task.done === true) {
     targetImage.setAttribute('src', checked)
   } else {
