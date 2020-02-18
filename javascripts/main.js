@@ -14,11 +14,11 @@ let todoArray = [];
 titleIn.addEventListener('keyup', disableButtonHandler);
 taskItem.addEventListener('keyup', disableButtonHandler);
 addTaskBtn.addEventListener('click', addTaskHandler);
-makeTodoBtn.addEventListener('click', createTaskList);
+makeTodoBtn.addEventListener('click', makeTodoBtnHandler);
 output.addEventListener('click', removeTaskItem);
 clearBtn.addEventListener('click', clearTaskList);
 // pendingItemList.addEventListener('click', deleteTask);
-rightSect.addEventListener('click', sectionHandler);
+rightSect.addEventListener('click', indexHandler);
 window.addEventListener('load', handlePageload);
 
 // Event Handlers
@@ -28,10 +28,10 @@ function addTaskHandler(){
 }
 
 function makeTodoBtnHandler(){
-  createTask();
   createTaskList();
   displayMessage(todoArray, 'No Tasks Yet');
   clearTaskList();
+  createTasksArray();
   disableButtonHandler();
 }
 
@@ -48,7 +48,7 @@ function disableButtonHandler() {
   disableButton(makeTodoBtn);
 }
 
-function sectionHandler(){
+function indexHandler(){
   toggleTaskComplete(event);
   removeTodo(event);
 }
@@ -108,7 +108,7 @@ function addTask(obj) {
 
 // CREATE NEW TASK ITEM
 function createTask() {
-  const task = {
+  let task = {
       id: Date.now(),
       text: taskItem.value,
       done: false }
@@ -148,7 +148,7 @@ function saveToStorage(array){
 // CREATE TODO TASK LIST
 function createTaskList() {
   let tasksArray = JSON.parse(localStorage.getItem('tasksArray'));
-  const todo = new TodoList(Date.now(), titleInput.value, tasksArray);
+  const todo = new TodoList({title: titleIn.value, task: taskArray});
   todoArray.push(todo);
   todo.saveToStorage(todoArray);
   displayMessage(todoArray, 'No Task Yet');
@@ -229,10 +229,19 @@ function displayCards(array){
   });
 }
 
+// FIND INDEX
+function findTargetIndex(e, targetArray, className) {
+  let id = e.target.closest('.' + className).dataset.id;
+  const targetIndex = targetArray.findIndex(function(obj) {
+    return parseInt(id) === obj.id
+  });
+  return targetIndex;
+}
+
 // DELETE TASK ITEM FROM CARD
 function removeTodo(e) {
   if (e.target.classList.contains('.delete-card')){
-    let targetIndex = findTargetIndex(e, todoArray, '.card-index');
+    let targetIndex = findTargetIndex(e, todoArray, 'card-index');
     todoArray[targetIndex].deleteFromStorage(todoArray, targetIndex);
     e.target.closest('.card-index').remove();
     displayMessage(todoArray, 'Done')
@@ -248,7 +257,7 @@ function checkDeleteButton(e,tasksArray, todo) {
     enableDeleteBtn(deleteBtn);
     todo.delete = true;
   } else {
-    disableDeleteBtn.(deleteBtn);
+    disableDeleteBtn(deleteBtn);
     todo.delete = false;
   }
 }
@@ -271,7 +280,7 @@ function displayMessage(array, message) {
 
 // CHECK ITEM AS COMPLETE (TOGGLE)
 function toggleCheckClass(e) {
-  e.target.closest(.'taskItem').classList.toggle.('checked');
+  e.target.closest('taskItem').classList.toggle('checked');
 }
 
 function toggleTaskComplete(e) {

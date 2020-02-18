@@ -122,6 +122,13 @@ ul {
   flex-direction: column;
 }
 
+li {
+  align-items: center;
+  display: flex;
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
 .urgent-filter {
   display: flex;
   flex-direction: column;
@@ -141,6 +148,16 @@ output img {
   height: 30px;
   margin: 0;
   padding: 3px;
+}
+
+.img-check {
+  height: 30px;
+}
+
+.checked {
+  color: #3C6577;
+  font-style: italic;
+  text-decoration: line-through;
 }
 
 /*Cards*/
@@ -170,4 +187,23 @@ output img {
   display: flex;
   flex-direction: column;
   padding: 10px 0px;
+}
+
+/*Card Footer*/
+.card-footer {
+  border-top: 2px solid #C7D3D8;
+  display: flex;
+  font-size: 10px;
+  justify-content: space-between;
+  padding: 5px;
+  padding-top: 5px;
+}
+
+.card-footer div {
+  flex-direction: column;
+}
+
+.card-footer img {
+  height: 25px;
+  padding: 0px;
 }
