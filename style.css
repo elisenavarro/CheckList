@@ -122,6 +122,13 @@ ul {
   flex-direction: column;
 }
 
+li {
+  align-items: center;
+  display: flex;
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
 .urgent-filter {
   display: flex;
   flex-direction: column;
@@ -134,4 +141,69 @@ ul {
 #filter-btn {
   width: 90%;
   margin-right: 12px;
+}
+
+/*List Icons*/
+output img {
+  height: 30px;
+  margin: 0;
+  padding: 3px;
+}
+
+.img-check {
+  height: 30px;
+}
+
+.checked {
+  color: #3C6577;
+  font-style: italic;
+  text-decoration: line-through;
+}
+
+/*Cards*/
+#index-message {
+  color: #1f1f3d;
+  font-size: 16px;
+  margin-top: 30px;
+  margin-left: 20px;
+}
+
+.card-index {
+  border: 3px solid #C7D3D8;
+  background-color: #FAFDFF;
+  min-height: 160px;
+  padding: 2px;
+  width: 95%;
+}
+
+.card-h2 {
+  color: #1F1F3D;
+  font-size: 15px;
+  border-bottom: 2px solid #C7D3D8;
+  padding: 5px;
+}
+
+.card-ul {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0px;
+}
+
+/*Card Footer*/
+.card-footer {
+  border-top: 2px solid #C7D3D8;
+  display: flex;
+  font-size: 10px;
+  justify-content: space-between;
+  padding: 5px;
+  padding-top: 5px;
+}
+
+.card-footer div {
+  flex-direction: column;
+}
+
+.card-footer img {
+  height: 25px;
+  padding: 0px;
 }
