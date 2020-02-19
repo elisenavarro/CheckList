@@ -5,7 +5,6 @@ const addTaskBtn = document.querySelector('#plus-btn');
 const makeTodoBtn = document.querySelector('#make-btn');
 const clearBtn = document.querySelector('#clear-btn');
 const rightSect = document.querySelector('.card-index')
-//const pendingItemList = document.querySelector('#task-item-list');
 const output = document.querySelector('output');
 let todoArray = [];
 
@@ -17,7 +16,6 @@ addTaskBtn.addEventListener('click', addTaskHandler);
 makeTodoBtn.addEventListener('click', makeTodoBtnHandler);
 output.addEventListener('click', removeTaskItem);
 clearBtn.addEventListener('click', clearTaskList);
-// pendingItemList.addEventListener('click', deleteTask);
 rightSect.addEventListener('click', indexHandler);
 window.addEventListener('load', handlePageload);
 
@@ -114,7 +112,7 @@ function createTask() {
       done: false }
   let tasksArray = JSON.parse(localStorage.getItem('tasksArray'));
   tasksArray.push(task);
-  saveToStorage(tasksArray);
+  pushToStorage(tasksArray);
   addTask(task);
 }
 
@@ -125,7 +123,7 @@ function removeTaskItem(e) {
     let tasksArray = getTasksArray();
     let targetIndex = findTargetIndex(e, tasksArray, 'task-to-add');
     tasksArray.splice(targetIndex, 1);
-    saveToStorage(tasksArray);
+    pushToStorage(tasksArray);
   }
   disableButtonHandler();
 }
@@ -141,14 +139,14 @@ function createTasksArray(){
 }
 
 // SAVE TASK ARRAY
-function saveToStorage(array){
+function pushToStorage(array){
   localStorage.setItem('tasksArray', JSON.stringify(array));
 }
 
 // CREATE TODO TASK LIST
 function createTaskList() {
-  let tasksArray = JSON.parse(localStorage.getItem('tasksArray'));
-  const todo = new TodoList({title: titleIn.value, task: taskArray});
+  var tasksArray = JSON.parse(localStorage.getItem('tasksArray'));
+  var todo = new TodoList({title:titleIn.value, task:tasksArray});
   todoArray.push(todo);
   todo.saveToStorage(todoArray);
   displayMessage(todoArray, 'No Task Yet');
@@ -208,20 +206,6 @@ function populateTasks(array) {
   return uList;
 }
 
-// CREATE TASK CARD
-function createCard(e) {
-  e.preventDefault();
-  let todoTasks = JSON.parse(localStorage.getItem('todoTasks'));
-  let taskCard = new TodoList(Date.now(), titleInput.value, todoTasks);
-  cardsArray.push(taskCard);
-  taskCard.saveToStorage(cardsArray);
-  if (localStorage.getItem('taskListArray')) {
-    createTodoTask();
-    localStorage.removeItem('todoTasks');
-  }
-  generateCard(taskCard);
-}
-
 // DISPLAY CARDS
 function displayCards(array){
   array.forEach(function(todos){
@@ -279,35 +263,6 @@ function displayMessage(array, message) {
 }
 
 // CHECK ITEM AS COMPLETE (TOGGLE)
-function toggleCheckClass(e) {
-  e.target.closest('taskItem').classList.toggle('checked');
-}
-
-function toggleTaskComplete(e) {
-  if (e.target.classList.contains('img-check')) {
-    const todoIndex = findTargetIndex(e, todoArray, '.card-index');
-    const listIndex = findTargetIndex(e, todoArray[todoIndex].tasks, 'taskItem');
-    let task = todoArray[todoIndex].tasks[listIndex];
-    let tasksArray = todoArray[todoIndex].tasks;
-    task.done = !task.done;
-    toggleCheckbox(e, task, listIndex);
-    toggleCheckClass(e);
-    checkDeleteButton(e, tasksArray, todoArray[todoIndex]);
-    todoArray[todoIndex].saveToStorage(todoArray);
-  }
-}
-
-function toggleCheckbox(e, task, listIndex){
-  let checked = 'images/checkbox-active.svg';
-  let unchecked = 'images/checkbox.svg';
-  let imgArray = e.target.closest('.card-index').querySelectorAll('.img-check');
-  targetImage = imgArray[listIndex];
-  if (task.done === true) {
-    targetImage.setAttribute('src', checked)
-  } else {
-    targetImage.setAttribute('src', unchecked)
-  }
-}
 
 // CHECK CARD AS URGENT (TOGGLE)
 
